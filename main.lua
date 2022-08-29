@@ -257,7 +257,7 @@ local function skyChoice()
 	local texPath, sArray
 	for _, weather in pairs(WtC.weathers) do
 		if (weatherNow.index == weather.index) then goto continue end
-		if config.vanChance < math.random() then
+		if config.vanChance / 100 < math.random() then
 			for index, _ in pairs(weathers.customWeathers) do
 				if weather.index == index then
 					for w, i in pairs(tes3.weather) do
@@ -679,11 +679,10 @@ local function init()
 		end
 
 		-- Initially shuffle the cloud textures --
-		local vanChance = config.vanChance / 100
 		local texPath, sArray
 		debugLog("Initially shuffling textures.")
 		for _, weather in pairs(WtC.weathers) do
-			if vanChance < math.random() then
+			if config.vanChance / 100 < math.random() then
 				for index, _ in pairs(weathers.customWeathers) do
 					if weather.index == index then
 						for w, i in pairs(tes3.weather) do

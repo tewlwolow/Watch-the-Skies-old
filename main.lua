@@ -241,7 +241,7 @@ local function changeCloudsSpeed()
 	local currentWeather = WtC.currentWeather.index
 	for i, w in pairs(WtC.weathers) do
 		if i == currentWeather then goto continue end
-		w.cloudsSpeed = table.choice(cloudSpeed[i]) / 100
+		w.cloudsSpeed = table.choice(cloudSpeed[i]) / config.cloudsSpeedMode
 		::continue::
 	end
 	debugLog("Clouds speed randomised.")

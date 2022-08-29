@@ -58,6 +58,15 @@ page:createYesNoButton {
     variable = registerVariable("randomiseCloudsSpeed"),
     restartRequired = true
 }
+page:createDropdown {
+	label = "Cloud speed mode:",
+	options = {
+		{ label = "Vanilla", value = 100 },
+		{ label = "Skies .iv", value = 500 }
+	},
+	variable = registerVariable("cloudsSpeedMode"),
+    restartRequired = true
+}
 page:createYesNoButton {
     label = "Randomise rain and snow particle meshes?",
     variable = registerVariable("randomiseParticleMeshes"),

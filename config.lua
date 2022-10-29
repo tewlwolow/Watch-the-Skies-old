@@ -10,5 +10,5 @@ return mwse.loadConfig("Watch the Skies", {
     seasonalWeather = true,
     daytime = true,
     cloudsSpeedMode = 100,
-    useCustomSkyColour = true
+    useCustomSkyColour = false
 })

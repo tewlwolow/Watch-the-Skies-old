@@ -73,7 +73,7 @@ page:createYesNoButton {
     restartRequired = true
 }
 page:createYesNoButton {
-    label = "Use different sky colour calculations (recommended with my WA preset)",
+    label = "Use different sky colour calculations (recommended with my WA preset - experimental)",
     variable = registerVariable("useCustomSkyColour"),
     restartRequired = true
 }

@@ -247,6 +247,11 @@ local function changeCloudsSpeed()
 	debugLog("Clouds speed randomised.")
 end
 
+-- Recolour the sky to not be earthlike --
+local function changeFarScattering()
+	mge.weather.setFarScattering{far = WtC.currentSkyColor, mix = 0.88}
+end
+
 -- Main function controlling cloud texture swap --
 local function skyChoice()
 	local weatherNow = WtC.currentWeather
@@ -312,23 +317,12 @@ local function changeInteriorWeather()
 
 	-- Use regional weather chances --
 	local region = tes3.getRegion({ useDoors = true })
-	local regionChances = {
-		[0] = region.weatherChanceClear,
-		[1] = region.weatherChanceCloudy,
-		[2] = region.weatherChanceFoggy,
-		[3] = region.weatherChanceOvercast,
-		[4] = region.weatherChanceRain,
-		[5] = region.weatherChanceThunder,
-		[6] = region.weatherChanceAsh,
-		[7] = region.weatherChanceBlight,
-		[8] = region.weatherChanceSnow,
-		[9] = region.weatherChanceBlizzard
-	}
+	local regionChances = region.weatherChances
 
 	-- Get the new weather --
 	while newWeather == nil do
 		for weather, chance in pairs(regionChances) do
-			if chance / 100 > math.random() then
+			if (chance == 100) or (chance / 100 > math.random()) then
 				newWeather = weather
 				break
 			end
@@ -601,9 +595,18 @@ local function daytimeTimer()
 	timer.start({ duration = 6, callback = changeDaytime, iterations = -1, type = timer.game })
 end
 
--- Shuffle texture every two hours --
+-- Shuffle texture every six hours --
 local function skyChoiceTimer()
 	timer.start({ duration = 6, callback = skyChoice, iterations = -1, type = timer.game })
+end
+
+local function startScatteringTimer()
+	timer.start {
+		duration = 0.001,
+		callback = changeFarScattering,
+		type = timer.game,
+		iterations = -1
+	}
 end
 
 -- Check if we have the weather that warrants particle change --
@@ -736,6 +739,9 @@ local function init()
 	end
 	if config.interiorTransitions then
 		event.register("cellChanged", onCellChanged, { priority = -150 })
+	end
+	if config.useCustomSkyColour then
+		event.register("loaded", startScatteringTimer)
 	end
 
 	mwse.log("[Watch the Skies] Version " .. version .. " initialised.")

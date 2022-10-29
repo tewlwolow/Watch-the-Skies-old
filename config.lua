@@ -9,5 +9,6 @@ return mwse.loadConfig("Watch the Skies", {
     randomiseParticleMeshes = true,
     seasonalWeather = true,
     daytime = true,
-    cloudsSpeedMode = 100
+    cloudsSpeedMode = 100,
+    useCustomSkyColour = true
 })

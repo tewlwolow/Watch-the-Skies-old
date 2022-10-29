@@ -72,6 +72,11 @@ page:createYesNoButton {
     variable = registerVariable("randomiseParticleMeshes"),
     restartRequired = true
 }
+page:createYesNoButton {
+    label = "Use different sky colour calculations (recommended with my WA preset)",
+    variable = registerVariable("useCustomSkyColour"),
+    restartRequired = true
+}
 page:createSlider {
     label = "Changes % chance for a vanilla cloud texture to show up instead.\nDefault - 0%.\nChance %",
     min = 0,

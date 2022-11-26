@@ -35,6 +35,43 @@ function particleMesh.init()
 	end
 end
 
+-- Change particle mesh colours in real-time --
+function particleMesh.reColourParticleMesh()
+
+	-- Bugger off if we don't have all the data needed --
+	if not (WtC.currentWeather.name == "Rain" or WtC.currentWeather.name == "Thunderstorm" or WtC.currentWeather.name == "Snow")
+		or ((WtC.nextWeather) and not (WtC.nextWeather.name == "Rain" or WtC.nextWeather.name == "Thunderstorm" or WtC.nextWeather.name == "Snow"))
+		or not newParticleMesh then
+		return
+	end
+
+	-- Get fog colour to make the particles match the scene look --
+	local weatherColour = WtC.currentFogColor
+
+	-- Preprocess colours a bit, snow should be lighter, rain should look a bit colder --
+	local colours
+	if (WtC.currentWeather.name) == "Snow" or (WtC.nextWeather and WtC.nextWeather.name == "Snow") then
+		colours = {
+			r = math.clamp(weatherColour.r + 0.2, 0.1, 0.9),
+			g = math.clamp(weatherColour.g + 0.2, 0.1, 0.9),
+			b = math.clamp(weatherColour.b + 0.2, 0.1, 0.9)
+		}
+	else
+		colours = {
+			r = math.clamp(weatherColour.r + 0.11, 0.1, 0.9),
+			g = math.clamp(weatherColour.g + 0.12, 0.1, 0.9),
+			b = math.clamp(weatherColour.b + 0.13, 0.1, 0.9)
+		}
+	end
+
+	-- Set the particle mesh colour via mesh material property --
+	local materialProperty = newParticleMesh:getObjectByName("tew_particle").materialProperty
+	materialProperty.emissive = colours
+	materialProperty.specular = colours
+	materialProperty.diffuse = colours
+	materialProperty.ambient = colours
+end
+
 -- Randomise particle mesh --
 function particleMesh.changeParticleMesh(particleType)
 

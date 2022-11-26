@@ -1,5 +1,4 @@
 local seasonalDaytime = {}
-local config = require("tew.Watch the Skies.config")
 
 --------------------------------------------------------------------------------------
 

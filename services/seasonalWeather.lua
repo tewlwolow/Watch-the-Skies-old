@@ -1,11 +1,9 @@
 local seasonalWeather = {}
-local config = require("tew.Watch the Skies.config")
 
 --------------------------------------------------------------------------------------
 
 local common = require("tew.Watch the Skies.components.common")
 local debugLog = common.debugLog
-local WtC = tes3.worldController.weatherController
 local seasonalChances = require("tew.Watch the Skies.components.seasonalChances")
 local monthLast, regionLast
 

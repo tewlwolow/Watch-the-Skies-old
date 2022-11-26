@@ -47,30 +47,10 @@ function skyTexture.randomise()
 
 	-- Check against config chances, do nothing if dice roll determines we should use vanilla instead --
 	debugLog("Starting cloud texture randomisation.")
-	local texPath, sArray
-	for _, weather in pairs(WtC.weathers) do
-		if (weatherNow) and (weatherNow.index == weather.index) then goto continue end
-		if (config.vanChance) / 100 < math.random() then
-			for index, _ in pairs(weathers.customWeathers) do
-				if (weather.index) == index then
-					for w, i in pairs(tes3.weather) do
-						if (index == i) then
-							sArray = weathers.customWeathers[weather.index]
-							texPath = w
-							break
-						end
-					end
-				end
-			end
-			if texPath ~= nil and sArray[1] ~= nil then
-				weather.cloudTexture = WtSdir .. texPath .. "\\" .. sArray[math.random(1, #sArray)]
-				debugLog("Cloud texture path set to: " .. weather.cloudTexture)
-			end
-		else
-			texPath = weathers.vanillaWeathers[weather.index]
-			weather.cloudTexture = "Data Files\\Textures\\" .. texPath
-			debugLog("Using vanilla texture: " .. weather.cloudTexture)
-		end
+	for index, weather in ipairs(WtC.weathers) do
+		if (weatherNow) and (weatherNow.index == index) then goto continue end
+			weather.cloudTexture = WtSdir .. weather.name:lower() .. "\\" .. table.choice(weathers.customWeathers[index-1])
+			debugLog("Cloud texture path set to: " .. weather.name .. " >> " .. weather.cloudTexture)
 		::continue::
 	end
 end
@@ -86,6 +66,12 @@ function skyTexture.init()
 					debugLog("File added: " .. sky)
 				end
 			end
+		end
+	end
+
+	if config.useVanillaSkyTextures then
+		for index, sky in ipairs(weathers.vanillaWeathers) do
+			table.insert(weathers.customWeathers[index], sky)
 		end
 	end
 

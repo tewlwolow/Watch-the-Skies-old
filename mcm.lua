@@ -1,6 +1,6 @@
 local configPath = "Watch the Skies"
 local config = require("tew.Watch the Skies.config")
-local modversion = require("tew\\Watch the Skies\\version")
+local modversion = require("tew.Watch the Skies.version")
 local version = modversion.version
 
 local function registerVariable(id)

@@ -63,7 +63,7 @@ function cloudSpeed.randomise()
 	local currentWeatherIndex = WtC.currentWeather.index
 	for i, w in pairs(WtC.weathers) do
 		if (currentWeatherIndex) and (i == currentWeatherIndex) then goto continue end
-		w.cloudsSpeed = table.choice(cloudSpeedData[i]) / config.cloudsSpeedMode
+		w.cloudsSpeed = table.choice(cloudSpeedData[i]) / config.cloudSpeedMode
 		::continue::
 	end
 	debugLog("Cloud speed randomised.")

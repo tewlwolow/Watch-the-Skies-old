@@ -50,7 +50,7 @@ function skyTexture.randomise()
 		if (weatherNow) and (weatherNow.index == index) then goto continue end
 		local texturePath = table.choice(weathers.customWeathers[index-1])
 		weather.cloudTexture = texturePath
-		debugLog("Cloud texture path set to: " .. weather.name .. " >> " .. weather.cloudTexture)
+		debugLog("Cloud texture path set: " .. weather.name .. " >> " .. weather.cloudTexture)
 		::continue::
 	end
 end

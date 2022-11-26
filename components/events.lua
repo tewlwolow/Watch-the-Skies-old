@@ -2,7 +2,7 @@ local config = require("tew.Watch the Skies.config")
 
 -- Particle meshes events --
 if config.particleMesh then
-	local particleMesh = require("tew.Watch the Skies.services.particleMeshes")
+	local particleMesh = require("tew.Watch the Skies.services.particleMesh")
 	particleMesh.init()
 	event.register(tes3.event.weatherTransitionStarted, particleMesh.particleMeshChecker, { priority = -250 })
 	event.register(tes3.event.weatherTransitionFinished, particleMesh.particleMeshChecker, { priority = -250 })

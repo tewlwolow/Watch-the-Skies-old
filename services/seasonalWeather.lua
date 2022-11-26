@@ -213,7 +213,7 @@ function seasonalWeather.startTimer()
 	monthLast, regionLast = nil, nil
 	timer.start{
 		duration = common.centralTimerDuration,
-		callback = seasonalWeather.randomise,
+		callback = seasonalWeather.calculate,
 		iterations = -1,
 		type = timer.game
 	}

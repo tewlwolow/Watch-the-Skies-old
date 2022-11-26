@@ -36,13 +36,11 @@ end
 
 if config.seasonalWeather then
 	local seasonalWeather = require("tew.Watch the Skies.services.seasonalWeather")
-	seasonalWeather.calculate()
 	event.register(tes3.event.loaded, seasonalWeather.startTimer)
 end
 
 if config.seasonalDaytime then
 	local seasonalDaytime = require("tew.Watch the Skies.services.seasonalDaytime")
-	seasonalDaytime.calculate()
 	event.register(tes3.event.loaded, seasonalDaytime.startTimer)
 end
 

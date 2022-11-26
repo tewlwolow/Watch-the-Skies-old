@@ -25,12 +25,17 @@ page:createYesNoButton {
 }
 page:createYesNoButton {
     label = "Enable randomised cloud textures?",
-    variable = registerVariable("alterClouds"),
+    variable = registerVariable("skyTexture"),
+    restartRequired = true
+}
+page:createYesNoButton {
+    label = "Use vanilla sky textures as well?",
+    variable = registerVariable("useVanillaSkyTextures"),
     restartRequired = true
 }
 page:createYesNoButton {
     label = "Enable randomised hours between weather changes?",
-    variable = registerVariable("alterChanges"),
+    variable = registerVariable("dynamicWeatherChanges"),
     restartRequired = true
 }
 page:createYesNoButton {
@@ -45,17 +50,17 @@ page:createYesNoButton {
 }
 page:createYesNoButton {
     label = "Enable seasonal daytime hours?",
-    variable = registerVariable("daytime"),
+    variable = registerVariable("seasonalDaytime"),
     restartRequired = true
 }
 page:createYesNoButton {
     label = "Randomise max particles?",
-    variable = registerVariable("randomiseParticles"),
+    variable = registerVariable("particleAmount"),
     restartRequired = true
 }
 page:createYesNoButton {
     label = "Randomise clouds speed?",
-    variable = registerVariable("randomiseCloudsSpeed"),
+    variable = registerVariable("cloudSpeed"),
     restartRequired = true
 }
 page:createDropdown {
@@ -64,26 +69,18 @@ page:createDropdown {
 		{ label = "Vanilla", value = 100 },
 		{ label = "Skies .iv", value = 500 }
 	},
-	variable = registerVariable("cloudsSpeedMode"),
+	variable = registerVariable("cloudSpeedMode"),
     restartRequired = true
 }
 page:createYesNoButton {
     label = "Randomise rain and snow particle meshes?",
-    variable = registerVariable("randomiseParticleMeshes"),
+    variable = registerVariable("particleMesh"),
     restartRequired = true
 }
 page:createYesNoButton {
     label = "Use different sky colour calculations (recommended with my WA preset - experimental)",
-    variable = registerVariable("useCustomSkyColour"),
+    variable = registerVariable("customSkyColour"),
     restartRequired = true
-}
-page:createSlider {
-    label = "Changes % chance for a vanilla cloud texture to show up instead.\nDefault - 0%.\nChance %",
-    min = 0,
-    max = 100,
-    step = 1,
-    jump = 10,
-    variable = registerVariable("vanChance")
 }
 
 template:saveOnClose(configPath, config)

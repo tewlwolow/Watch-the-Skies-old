@@ -1,6 +1,6 @@
 return mwse.loadConfig("Watch the Skies", {
     cloudSpeed = true,
-    cloudsSpeedMode = 100,
+    cloudSpeedMode = 100,
     customSkyColour = false,
     debugLogOn = false,
     dynamicWeatherChanges = true,
@@ -10,5 +10,5 @@ return mwse.loadConfig("Watch the Skies", {
     seasonalDaytime = true,
     seasonalWeather = true,
     skyTexture = true,
-    vanChance = 0,
+    useVanillaSkyTextures = true,
 })

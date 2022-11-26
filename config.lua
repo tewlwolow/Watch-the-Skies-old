@@ -1,14 +1,14 @@
 return mwse.loadConfig("Watch the Skies", {
-    vanChance = 0,
+    cloudSpeed = true,
+    cloudsSpeedMode = 100,
+    customSkyColour = false,
     debugLogOn = false,
-    skyTexture = true,
     dynamicWeatherChanges = true,
     interiorTransitions = true,
     particleAmount = true,
-    cloudSpeed = true,
     particleMesh = true,
-    seasonalWeather = true,
     seasonalDaytime = true,
-    cloudsSpeedMode = 100,
-    useCustomSkyColour = false
+    seasonalWeather = true,
+    skyTexture = true,
+    vanChance = 0,
 })

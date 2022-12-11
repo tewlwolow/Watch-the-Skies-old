@@ -9,13 +9,12 @@ local intWeatherTimer
 
 --------------------------------------------------------------------------------------
 
-	-- Main function controlling weather changes in interiors --
-
+-- Main function controlling weather changes in interiors --
 function interiorTransitions.progress()
 	if WtC.nextWeather then return end
 
 	local currentWeather = WtC.currentWeather.index
-	local newWeather
+	local newWeather = nil
 	debugLog("Weather before randomisation: " .. currentWeather)
 
 	-- Use regional weather chances --
@@ -23,21 +22,23 @@ function interiorTransitions.progress()
 	local regionChances = region.weatherChances
 
 	-- Get the new weather --
-	while newWeather == nil do
-		for weather, chance in pairs(regionChances) do
-			if (chance == 100) or (chance / 100 > math.random()) then
-				newWeather = weather
-				break
-			end
+	for weather, chance in pairs(regionChances) do
+		if (chance == 100) or (chance / 100 > math.random()) then
+			newWeather = weather
+			break
 		end
 	end
 
-	if newWeather == currentWeather then interiorTransitions.progress() return end
+	if newWeather == currentWeather then
+		interiorTransitions.progress()
+		return
+	end
 
 	-- Switch to the new weather --
 	WtC:switchTransition(newWeather)
 	debugLog("Weather randomised. New weather: " .. WtC.nextWeather.index)
 end
+
 
 function interiorTransitions.onCellChanged()
 	if (cell.isOrBehavesAsExterior) then
@@ -45,19 +46,21 @@ function interiorTransitions.onCellChanged()
 			intWeatherTimer:pause()
 			debugLog("Player in exterior. Pausing interior timer.")
 		end
-		-- Refresh the timer in interiors --
+	-- Refresh the timer in interiors --
 	else
 		if intWeatherTimer then
 			intWeatherTimer:pause()
 			intWeatherTimer:cancel()
 			intWeatherTimer = nil
 		end
+
 		intWeatherTimer = timer.start {
 			duration = WtC.hoursBetweenWeatherChanges,
 			callback = interiorTransitions.progress,
 			type = timer.game,
 			iterations = -1
 		}
+
 		debugLog("Player in interior. Resuming interior timer. Hours to weather change: " .. WtC.hoursBetweenWeatherChanges)
 	end
 end

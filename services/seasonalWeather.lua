@@ -27,56 +27,27 @@ function seasonalWeather.init()
 end
 
 function seasonalWeather.checkVv(region)
-	for _, v in ipairs(vvRegions) do
-		if region == v then
-			return true
-		end
-	end
+	return table.find(vvRegions, region) ~= nil
 end
 
 function seasonalWeather.getMQState()
+	local journalEntries = {
+		["C3_DestroyDagoth"] = 0,
+		["A1_2_AntabolisInformant"] = 1,
+		["A1_11_ZainsubaniInformant"] = 2,
+		["A2_2_6thHouse"] = 3,
+		["A2_3_CorprusCure"] = 4,
+		["A2_6_Incarnate"] = 5,
+		["B8_MeetVivec"] = 6,
+		["CX_BackPath"] = 6
+	}
 
-	-- Receiving index 20 for this quest changes the weather at Red Mountain. Also resets questStage to 0.
-	local endGameIndex = tes3.getJournalIndex { id = "C3_DestroyDagoth" }
-
-	-- Give the Dwemer Puzzle Box to Hasphat Antabolis. Triggers questStage 1.
-	local antabolisIndex = tes3.getJournalIndex { id = "A1_2_AntabolisInformant" }
-
-	-- Receive notes on the Ashlanders from Hassour Zainsubani. Triggers questStage 2.
-	local zainsubaniIndex = tes3.getJournalIndex { id = "A1_11_ZainsubaniInformant" }
-
-	-- Defeat Dagoth Gares. Triggers questStage 3.
-	local garesIndex = tes3.getJournalIndex { id = "A2_2_6thHouse" }
-
-	-- Take the cure from Divayth Fyr. Triggers questStage 4.
-	local cureIndex = tes3.getJournalIndex { id = "A2_3_CorprusCure" }
-
-	-- Receive Moon-and-Star from Azura. Triggers questStage 5.
-	local incarnateIndex = tes3.getJournalIndex { id = "A2_6_Incarnate" }
-
-	-- Receive a working Wraithguard from Vivec or Yagrum Bagarn. Triggers questStage 6.
-	local vivecIndex = tes3.getJournalIndex { id = "B8_MeetVivec" }
-	local backPathIndex = tes3.getJournalIndex { id = "CX_BackPath" }
-
-	local questStage
-
-	-- Determine the current stage of the Main Quest.
-	if endGameIndex >= 20 then
-		questStage = 0
-	elseif vivecIndex >= 50 or backPathIndex >= 50 then
-		questStage = 6
-	elseif incarnateIndex >= 50 then
-		questStage = 5
-	elseif cureIndex >= 50 then
-		questStage = 4
-	elseif garesIndex >= 50 then
-		questStage = 3
-	elseif zainsubaniIndex >= 50 then
-		questStage = 2
-	elseif antabolisIndex >= 10 then
-		questStage = 1
-	else
-		questStage = 0
+	local questStage = 0
+	for id, stage in pairs(journalEntries) do
+		local index = tes3.getJournalIndex { id = id }
+		if index >= 50 then
+			questStage = math.max(questStage, stage)
+		end
 	end
 	return questStage
 end
@@ -120,19 +91,19 @@ function seasonalWeather.calculate()
 				region.weatherChanceBlight = seasonalChances[region.id][month][8]
 				region.weatherChanceSnow = seasonalChances[region.id][month][9]
 				region.weatherChanceBlizzard = seasonalChances[region.id][month][10]
-
+				
 				-- Disable the blight cloud object from Dagoth Ur volcano --
 				mwscript.disable { reference = "blight cloud" }
 			end
 			-- Special handling of Mournhold weather machine --
 		elseif region.id == "Mournhold Region"
-			and tes3.findGlobal("MournWeather").value == 1
-			or tes3.findGlobal("MournWeather").value == 2
-			or tes3.findGlobal("MournWeather").value == 3
-			or tes3.findGlobal("MournWeather").value == 4
-			or tes3.findGlobal("MournWeather").value == 5
-			or tes3.findGlobal("MournWeather").value == 6
-			or tes3.findGlobal("MournWeather").value == 7 then
+		and tes3.findGlobal("MournWeather").value == 1
+		or tes3.findGlobal("MournWeather").value == 2
+		or tes3.findGlobal("MournWeather").value == 3
+		or tes3.findGlobal("MournWeather").value == 4
+		or tes3.findGlobal("MournWeather").value == 5
+		or tes3.findGlobal("MournWeather").value == 6
+		or tes3.findGlobal("MournWeather").value == 7 then
 			debugLog("Weather machine running: " .. tes3.findGlobal("MournWeather").value)
 			region.weatherChanceClear = 0
 			region.weatherChanceCloudy = 0
@@ -187,26 +158,26 @@ function seasonalWeather.calculate()
 			end
 		end
 	end
-
+	
 	-- Write month and region off for later comparison --
 	monthLast = month
 	regionLast = regionNow
 	debugLog(
-		string.format(
-			"Current chances for region: %s are %s, %s, %s, %s, %s, %s, %s, %s, %s, %s",
-			regionNow.name,
-			regionNow.weatherChanceClear,
-			regionNow.weatherChanceCloudy,
-			regionNow.weatherChanceFoggy,
-			regionNow.weatherChanceOvercast,
-			regionNow.weatherChanceRain,
-			regionNow.weatherChanceThunder,
-			regionNow.weatherChanceAsh,
-			regionNow.weatherChanceBlight,
-			regionNow.weatherChanceSnow,
-			regionNow.weatherChanceBlizzard
-		)
-	)
+	string.format(
+	"Current chances for region: %s are %s, %s, %s, %s, %s, %s, %s, %s, %s, %s",
+	regionNow.name,
+	regionNow.weatherChanceClear,
+	regionNow.weatherChanceCloudy,
+	regionNow.weatherChanceFoggy,
+	regionNow.weatherChanceOvercast,
+	regionNow.weatherChanceRain,
+	regionNow.weatherChanceThunder,
+	regionNow.weatherChanceAsh,
+	regionNow.weatherChanceBlight,
+	regionNow.weatherChanceSnow,
+	regionNow.weatherChanceBlizzard
+)
+)
 end
 
 function seasonalWeather.startTimer()

@@ -7,7 +7,7 @@ local WtC = tes3.worldController.weatherController
 --------------------------------------------------------------------------------------
 
 function customSkyColour.calculate()
-	mge.weather.setFarScattering{far = WtC.currentSkyColor, mix = 0.88}
+	mge.weather.setFarScattering{far = WtC.currentSkyColor, mix = 0.7}
 end
 
 function customSkyColour.startTimer()

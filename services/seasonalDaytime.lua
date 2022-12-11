@@ -13,11 +13,13 @@ function seasonalDaytime.init()
 	seasonalDaytime.calculate()
 end
 
+-- The following function uses slightly amended sveng's calculations from their old ESP mod: nexusmods.com/morrowind/mods/44375 --
+-- The function changes sunrise/sunset hours based on world latitude --
 function seasonalDaytime.calculate()
 	local month = tes3.worldController.month.value
 	local day = tes3.worldController.day.value
 
-	---
+	--- Constants --
 	local southY = -400000 -- Max "south pole" value - default -400000 (approximately Old Morrowind-Argonia border) --
 	local northY = 225000 -- Max "north pole" value - 225000 is slightly north of Castle Karstaag
 	local minDaytime = 4.0 -- Minimum daytime duration
@@ -25,8 +27,12 @@ function seasonalDaytime.calculate()
 	local solsticeSunset = 18.0 -- Sunset hour at 0 world position for solstice
 	local durSunrise = 2.0 -- Sunrise duration
 	local durSunset = 2.0 -- Sunset duration
-	local playerY = tes3.player.position.y -- Player y (latitude) position
+
+	-- Local variables --
 	local adjustedSunrise, adjustedSunset, l1, f1, f2, f3 -- Adjusted values and coefficients
+
+	-- Player position --
+	local playerY = tes3.player.position.y -- Player y (latitude) position
 
 	-- sveng's smart equation to determine applicable values --
 	l1 = ((((month * 3042) / 100) + day) + 9)

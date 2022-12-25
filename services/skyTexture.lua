@@ -41,7 +41,9 @@ function skyTexture.randomise()
 	debugLog("Starting cloud texture randomisation.")
 	for index, weather in ipairs(WtC.weathers) do
 		if (weatherNow) and (weatherNow.index == index) then goto continue end
-		local texturePath = table.choice(weathers.customWeathers[index-1])
+		local textureList = weathers.customWeathers[index-1]
+		math.randomseed(os.time());
+		local texturePath = textureList[math.random(#textureList)]
 		weather.cloudTexture = texturePath
 		debugLog("Cloud texture path set: " .. weather.name .. " >> " .. weather.cloudTexture)
 		::continue::
